@@ -240,9 +240,19 @@ if(TRITON_BUILD_PYTHON_MODULE)
     MLIRIR
   )
 
-  set(ROCM_LIBRARIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/rocm/libhsa-runtime64.so
+  if(EXISTS "$ENV{ROCM_PATH}/lib/libhsa-runtime64.so.1" )
+  set(ROCM_LIBRARIES 
+    $ENV{ROCM_PATH/lib/libhsa-runtime64.so.1}
   )
+  elseif(EXISTS  "/opt/rocm/lib/libhsa-runtime64.so.1" )
+  set(ROCM_LIBRARIES 
+  /opt/rocm/lib/libhsa-runtime64.so.1
+  )
+  else()
+  set(ROCM_LIBRARIES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/python/triton/third_party/rocm/lib/libhsa-runtime64.so.1
+  )
+  endif()
 
   if(WIN32)
     target_link_libraries(triton PRIVATE ${ROCM_LIBRARIES} ${LLVM_LIBRARIES} ${CMAKE_DL_LIBS}

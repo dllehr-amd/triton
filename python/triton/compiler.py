@@ -1613,7 +1613,12 @@ def quiet():
 
 @functools.lru_cache()
 def rocm_path_dir():
-    return os.getenv("ROCM_PATH", default="/opt/rocm")
+    rocm_path = os.getenv("ROCM_PATH", default="/opt/rocm")
+    if ( os.path.exists(rocm_path)):
+        return rocm_path
+    else: 
+        base_dir = os.path.dirname(__file__)
+        return os.path.join(base_dir, "third_party", "rocm")
 
 def _build(name, src, srcdir):
     if torch.version.hip is not None:
@@ -1740,12 +1745,13 @@ def get_amdgpu_arch_fulldetails():
         arch_name_features = gfx_arch_details[1].split(':')
         arch_name = arch_name_features[0]
         arch_features = ""
-
+        print("archinfo  {}, warpsize {}".format(arch_info, warpsize))
         if (len(arch_name_features) == 3):
             arch_features = "+" + re.search('\\w+', arch_name_features[1]).group(0) + ","\
                             "-" + re.search('\\w+', arch_name_features[2]).group(0)
         return [arch_triple, arch_name, arch_features]
-    except:
+    except Exception as e:
+        print("CATASTROPHIC {}".format(e))
         return None
 
 def make_stub(name, signature, constants):
@@ -1999,7 +2005,8 @@ def _get_amdgcn_bitcode_paths():
       gfx_arch_id = re.search('gfx(\\w+)', gfx_arch).group(1).strip()
 
       gpu_arch_specific_bitcode_library = 'oclc_isa_version_' + gfx_arch_id + ".bc"
-      bitcode_path_dir = os.path.join(Path(__file__).parent.resolve(), "third_party/rocm/lib/bitcode/")
+      bitcode_path_dir = os.path.join(Path(__file__).resolve(), "third_party/rocm/lib/bitcode/")
+      print("MY BITCODE PATH IS "+bitcode_path_dir, flush=True)
 
       amdgcn_bitcode_paths = {}
       i = 0
