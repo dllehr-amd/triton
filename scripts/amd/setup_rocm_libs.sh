@@ -101,13 +101,12 @@ ROCM_FILES=(
     "lib/libamdhip64.so"
     "bin/rocminfo"
     "llvm/bin/ld.lld"
-    "llvm/bin/lld"
     "include/hip"
 )
 for lib in "${ROCM_FILES[@]}"
 do
     mkdir -p `dirname $TRITON_ROCM_DIR/$lib`
-    cp -r $EXTRACT_DIR/opt/rocm-$ROCM_VERSION/$lib* `dirname $TRITON_ROCM_DIR/$lib`
+    cp -rL $EXTRACT_DIR/opt/rocm-$ROCM_VERSION/$lib* `dirname $TRITON_ROCM_DIR/$lib`
 done
 
 for lib in "${OS_SO[@]}"
