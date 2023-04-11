@@ -63,7 +63,7 @@ if [[ "$OS_NAME" == *"CentOS Linux"* ]]; then
         "/usr/lib64/libelf.so.1"
     )
     #install elf and numa packages if not already done
-    yum install -y elfutils-libelf numactl-libs
+    sudo yum install -y elfutils-libelf numactl-libs
     
     #download and extract ROCM packages
     pushd $EXTRACT_DIR
@@ -80,9 +80,9 @@ elif [[ "$OS_NAME" == *"Ubuntu"* ]]; then
         "/usr/lib/x86_64-linux-gnu/libelf.so.1"
     )
     #install elf and numa packages if not already done
-    apt-get update -y
-    apt-get install -y libelf1 libnuma1 curl
-    apt-get clean
+    sudo apt-get update -y
+    sudo apt-get install -y libelf1 libnuma1 curl
+    sudo apt-get clean
 
     #download and extract ROCM packages
     for pkg  in "${ROCM_PKGS[@]}"
