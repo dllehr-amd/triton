@@ -12,12 +12,12 @@ fi
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 case "$ID" in
   ubuntu)
-    apt-get update -y
-    apt-get install -y libpciaccess-dev pkg-config
-    apt-get clean
+    sudo apt-get update -y
+    sudo apt-get install -y libpciaccess-dev pkg-config
+    sudo apt-get clean
     ;;
   centos)
-    yum install -y libpciaccess-devel pkgconfig
+    sudo yum install -y libpciaccess-devel pkgconfig
     ;;
   *)
     echo "Unable to determine OS..."
