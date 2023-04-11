@@ -22,6 +22,8 @@ jobs:
           echo "" >> python/setup.cfg
           echo "[build_ext]" >> python/setup.cfg
           echo "base-dir=/project" >> python/setup.cfg
+          ./scripts/amd/setup_rocm_libs.sh
+
 
       - name: Patch setup.py version if tagged
         # patch setup.py version for any tag starting with 'v'
@@ -39,7 +41,8 @@ jobs:
         env:
           CIBW_BUILD: ${{ matrix.python }}-manylinux_x86_64
           CIBW_BUILD_VERBOSITY: 3
-          CIBW_MANYLINUX_X86_64_IMAGE: rocm/dev-manylinux2014_x86_64:5.4.2
+          CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux2014_x86_64:latest
+          CIBW_REPAIR_WHEEL_COMMAND_LINUX: ""
 
       - uses: actions/upload-artifact@v3
         with:
