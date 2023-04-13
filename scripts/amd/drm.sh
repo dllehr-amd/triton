@@ -148,6 +148,6 @@ ls -l ./drm/builddir/amdgpu/
 ls -l ./drm/builddir/
 cp drm/builddir/amdgpu/libdrm_amdgpu.so* $TRITON_ROCM_DIR/lib/
 cp drm/builddir/libdrm.so* $TRITON_ROCM_DIR/lib/
-cp drm/data/amdgpu.ids $TRITON_ROCM_DIR/data/
+cp drm/data/amdgpu.ids $TRITON_ROCM_DIR/lib
 rm -rf drm
 
