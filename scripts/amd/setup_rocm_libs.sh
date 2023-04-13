@@ -37,11 +37,10 @@ OS_NAME=`awk -F= '/^NAME/{print $2}' /etc/os-release`
 if [[ $ROCM_INT -eq 50402 ]]; then
     if [[ "$OS_NAME" == *"CentOS Linux"* ]]; then
         ROCM_PKGS=(
-            "https://repo.radeon.com/rocm/rhel8/5.4.2/main/hsa-rocr5.4.2-1.7.0.50402-104.el8.x86_64.rpm"
-            "https://repo.radeon.com/rocm/rhel8/5.4.2/main/hip-runtime-amd-5.4.22803.50402-104.el8.x86_64.rpm"
-            "https://repo.radeon.com/rocm/rhel8/5.4.2/main/hip-devel-5.4.22803.50402-104.el8.x86_64.rpm"
-            "https://repo.radeon.com/rocm/rhel8/5.4.2/main/rocm-llvm5.4.2-15.0.0.22506.50402-104.el8.x86_64.rpm"
-            "https://repo.radeon.com/rocm/rhel8/5.4.2/main/rocminfo5.4.2-1.0.0.50402-104.el8.x86_64.rpm"
+            "https://repo.radeon.com/rocm/yum/5.4.2/main/hsa-rocr-1.7.0.50402-104.el7.x86_64.rpm"
+            "https://repo.radeon.com/rocm/yum/5.4.2/main/hip-runtime-amd-5.4.22803.50402-104.el7.x86_64.rpm"
+            "https://repo.radeon.com/rocm/yum/5.4.2/main/hip-devel-5.4.22803.50402-104.el7.x86_64.rpm"
+            "https://repo.radeon.com/rocm/yum/5.4.2/main/rocm-llvm-15.0.0.22506.50402-104.el7.x86_64.rpm"
         )
 
     elif [[ "$OS_NAME" == *"Ubuntu"* ]]; then
@@ -101,12 +100,13 @@ ROCM_FILES=(
     "lib/libamdhip64.so"
     "bin/rocminfo"
     "llvm/bin/ld.lld"
+    "llvm/bin/lld"
     "include/hip"
 )
 for lib in "${ROCM_FILES[@]}"
 do
     mkdir -p `dirname $TRITON_ROCM_DIR/$lib`
-    cp -rL $EXTRACT_DIR/opt/rocm-$ROCM_VERSION/$lib* `dirname $TRITON_ROCM_DIR/$lib`
+    cp -r $EXTRACT_DIR/opt/rocm-$ROCM_VERSION/$lib* `dirname $TRITON_ROCM_DIR/$lib`
 done
 
 for lib in "${OS_SO[@]}"
